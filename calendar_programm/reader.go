@@ -12,8 +12,7 @@ type Event struct {
 	Day  int    `json:"day"`
 }
 
-
-//get the events from the file
+// get the events from the file
 func getEvents() []Event {
 	//read the file
 	file, err := ioutil.ReadFile("events.json")
@@ -29,9 +28,6 @@ func getEvents() []Event {
 	}
 	return events
 }
-
-
-
 
 func main() {
 	getEvents()

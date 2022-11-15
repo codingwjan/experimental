@@ -7,16 +7,12 @@ import (
 	"os"
 )
 
-
-
 type Event struct {
 	Name string `json:"name"`
-	Day int    `json:"day"`
+	Day  int    `json:"day"`
 }
 
-
 func main() {
-
 
 	//look for file
 	_, err := os.Stat("events.json")
@@ -72,7 +68,7 @@ func main() {
 
 	//write to json file
 	file, err := os.OpenFile("events.json", os.O_APPEND|os.O_WRONLY, 0600)
-	
+
 	// if file contains closing bracket, remove it
 	// and add a comma and the new event
 	// else just add the new event
@@ -97,6 +93,5 @@ func main() {
 	file.WriteString(string(byteArray))
 	file.WriteString("]")
 	file.Close()
-
 
 }
