@@ -2,15 +2,14 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
-	"encoding/json"
 )
 
 type Event struct {
 	Name string `json:"name"`
-	Day int `json:"day"`
-
+	Day int    `json:"day"`
 }
 
 func main() {
@@ -35,6 +34,19 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("please enter the name of the event")
 	name, _ := reader.ReadString('\n')
+	//remove the new line character
+	name = name[:len(name)-1]
+
+	//if name is "clear" delete the file
+	if name == "clear" {
+		err := os.Remove("events.json")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println("file deleted")
+		return
+	}
 
 	fmt.Println("please enter the date of the event")
 	fmt.Scan(&day)
@@ -45,17 +57,12 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(string(byteArray))	
-
+	fmt.Println(string(byteArray))
 
 	//write to json file
 	file, err := os.OpenFile("events.json", os.O_APPEND|os.O_WRONLY, 0600)
 	file.Write(byteArray)
 	file.Sync()
-
-
-	
-
+	file.Close()
 
 }
-
